@@ -1,0 +1,52 @@
+.reset {
+	text-decoration: none;
+	color: var(--crayola);
+	letter-spacing: 0.05rem;
+	display: inline-block;
+}
+
+.link {
+	font-size: 1.25rem;
+	font-weight: 700;
+	transition: all 0.3s linear;
+}
+
+.link:hover {
+	border-bottom: 4px solid var(--cadet);
+	color: var(--cadet);
+}
+
+.btn {
+	padding: 0.5em 1em;
+	border: 2px solid var(--crayola);
+	border-radius: 2em;
+	font-weight: 700;
+	transition: all 0.3s linear;
+}
+
+.btn:hover {
+	background-color: var(--crayola);
+	color: var(--magnolia);
+}
+
+.nested {
+	transition: all 0.3s linear;
+	font-weight: 900;
+}
+
+.nested:hover {
+	transform: translateY(-4px);
+}
+
+.side {
+	padding: 2rem 8rem;
+	font-weight: 900;
+	border-bottom: 1px solid var(--crayola);
+	display: block;
+}
+
+@media only screen and (max-height: 600px) {
+	.side {
+		padding: 1rem 8rem;
+	}
+}

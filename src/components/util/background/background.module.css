@@ -1,0 +1,8 @@
+.container {
+	min-height: max(400px, calc(100vh - 108.8px));
+	background: url("../../../assets/images/background.jpg") center/cover no-repeat;
+	padding: 5rem 0 1rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

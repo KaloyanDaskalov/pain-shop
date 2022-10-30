@@ -1,0 +1,25 @@
+.footer {
+	background-color: var(--cadet);
+	padding: 1rem;
+	text-align: center;
+}
+
+.footerText {
+	color: var(--magnolia);
+	font-size: 1.2rem;
+}
+
+.icon {
+	font-size: 2rem;
+	color: var(--magnolia);
+	display: inline-block;
+	transition: all 0.3s ease;
+}
+
+.icon:not(:last-of-type) {
+	margin-right: 1rem;
+}
+
+.icon:hover {
+	transform: translateY(-3px);
+}
