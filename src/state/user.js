@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { auth } from '../firebase'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 
 import Loader from '../components/ui/spinner'
 import Wrapper from '../components/util/wrapper'
@@ -14,13 +15,12 @@ export default function AuthProvider({ children }) {
 	const [loading, setLoading] = useState(true)
 	const [user, setUser] = useState(null)
 
-	function signup(email, password) {
-		// return promise 
-		return auth.createUserWithEmailAndPassword(email, password)
+	function register(email, password) {
+		return createUserWithEmailAndPassword(auth, email, password)
 	}
 
 	function login(email, password) {
-		return auth.signInWithEmailAndPassword(email, password)
+		return signInWithEmailAndPassword(auth, email, password)
 	}
 
 	function logout() {
@@ -43,13 +43,14 @@ export default function AuthProvider({ children }) {
 		const unsubscribe = auth.onAuthStateChanged(user => {
 			setUser(user)
 			setLoading(false)
+			console.log('user', user)
 		})
 		return unsubscribe
 	}, [])
 
 	const context = {
 		user,
-		signup,
+		register,
 		login,
 		logout,
 		resetPassword,
