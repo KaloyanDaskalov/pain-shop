@@ -1,0 +1,37 @@
+.notification {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--magnolia);
+  background-color: var(--crayola);
+  padding: 0 0.5rem;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  height: 4rem;
+  top: 0;
+  width: 100%;
+  left: 0;
+  z-index: 2;
+  transition: transform 400ms linear;
+}
+
+.notification p {
+  font-size: 1.3rem;
+}
+
+.success {
+  background-color: var(--green);
+}
+
+.error {
+  background-color: var(--sienna);
+}
+
+@media (min-width: 768px) {
+  .notification {
+    width: 40rem;
+    left: calc(50% - 20rem);
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+  }
+}

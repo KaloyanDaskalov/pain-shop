@@ -94,6 +94,21 @@ a {
   border-bottom: 2px solid var(--cadet);
 } */
 
+/* text area */
+
+.area {
+  display: block;
+  padding: 0.1rem 0.5rem;
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid var(--crayola);
+  font-size: 1.2rem;
+  background-color: inherit;
+  color: var(--cadet);
+  margin-bottom: 1em;
+  min-height: 10rem;
+}
+
 .error {
   border-bottom: 2px solid var(--sienna);
 }
@@ -132,4 +147,12 @@ a {
 .btn:disabled {
   color: var(--magnolia);
   background-color: #ddd;
+}
+
+/* icon */
+
+.icon {
+  font-size: 1.5rem;
+  vertical-align: middle;
+  margin-right: 0.5rem;
 }

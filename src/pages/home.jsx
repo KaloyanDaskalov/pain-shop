@@ -1,13 +1,13 @@
 import { useRef } from "react";
-import { useAuth } from "../state/user";
 import { firestore } from "../firebase";
 import { addDoc, collection } from "@firebase/firestore";
 import Frame from "../components/util/frame";
 import Title from "../components/ui/title";
 
+// TODO react-responsive-carousel
+
 export default function Home() {
   const messageRef = useRef();
-  const { user } = useAuth();
 
   const db = collection(firestore, "messages");
 
@@ -24,7 +24,7 @@ export default function Home() {
 
   return (
     <Frame>
-      <Title>Home {user?.email}</Title>
+      <Title>Home</Title>
       <form onSubmit={submitHandler}>
         <label htmlFor="message">Add message</label>
         <input type="text" id="message" name="message" ref={messageRef} />

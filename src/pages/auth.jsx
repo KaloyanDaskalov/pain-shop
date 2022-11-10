@@ -1,5 +1,7 @@
 import { useRef, useState } from "react";
 import { useAuth } from "../state/user";
+import { useNotification } from "../state/notifications";
+import { firebaseError } from "../utils/firebase-error";
 
 import Frame from "../components/util/frame";
 import Title from "../components/ui/title";
@@ -11,13 +13,13 @@ export default function Auth() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmRef = useRef();
-  const { register, login, user, logout } = useAuth();
+
+  const { register, login, resetPassword, user } = useAuth();
+  const { setMessage, setStatus } = useNotification();
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log("email", emailRef.current?.value);
-    console.log("password", passwordRef.current?.value);
-    console.log("confirm", confirmRef.current?.value);
+
     try {
       switch (form) {
         case "Register":
@@ -28,12 +30,18 @@ export default function Auth() {
           break;
         case "Login":
           await login(emailRef.current?.value, passwordRef.current?.value);
+          setMessage(`Welcome ${user.email}`);
+          setStatus("success");
+          break;
+        case "Reset Password":
+          await resetPassword(emailRef.current?.value);
           break;
         default:
           console.log("Unsupported form");
       }
     } catch (error) {
-      console.log(error);
+      setMessage(firebaseError(error.message));
+      setStatus("error");
     }
   };
 
@@ -120,11 +128,6 @@ export default function Auth() {
             Login
           </TextButton>
         </Message>
-      )}
-      {user && (
-        <p>
-          {user.email} <button onClick={logout}>Sign out</button>
-        </p>
       )}
     </Frame>
   );

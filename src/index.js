@@ -4,15 +4,18 @@ import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import AuthProvider from './state/user'
+import NotificationProvider from "./state/notifications"
 import { BrowserRouter } from 'react-router-dom'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
+      <NotificationProvider>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </NotificationProvider>
     </BrowserRouter>
   </React.StrictMode>
 )

@@ -35,6 +35,16 @@ export default function Navigation() {
                 <BiCart />
               </Link>
             </li>
+            <li>
+              <Link to="/" className={classes.link}>
+                <BiListUl />
+              </Link>
+            </li>
+            <li>
+              <Link to="/" className={classes.link}>
+                <BiAddToQueue />
+              </Link>
+            </li>
           </ul>
         </nav>
       </Wrapper>
