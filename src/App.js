@@ -1,6 +1,8 @@
 import './App.css'
 
 import { Routes, Route } from 'react-router-dom'
+import { useAuth } from './state/user'
+import ProtectedRoute from "./hoc/protected-route"
 
 import Footer from './components/footer'
 import Navigation from './components/navigation'
@@ -10,14 +12,23 @@ import Profile from './pages/profile'
 import Contact from './pages/contact'
 
 function App() {
+
+  const { user } = useAuth()
+
   return (
     <>
       <Navigation />
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/auth' element={<Auth />} />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/contact' element={<Contact />} />
+        <Route path='auth' element={
+          <ProtectedRoute isAllowed={!Boolean(user)} redirectPath='/profile'>
+            <Auth />
+          </ProtectedRoute>
+        } />
+        <Route path='profile' element={<ProtectedRoute isAllowed={!!user} redirectPath='/auth'>
+          <Profile />
+        </ProtectedRoute>} />
+        <Route path='contact' element={<Contact />} />
       </Routes>
       <Footer />
     </>

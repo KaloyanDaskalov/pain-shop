@@ -1,4 +1,6 @@
 import { useRef } from "react";
+import { useNotification } from "../state/notifications";
+import { formSpreeAction } from "../utils/formspree";
 import { lengthCheck, emailValidation } from "../utils/pattern";
 
 import Frame from "../components/util/frame";
@@ -7,13 +9,15 @@ import Message from "../components/ui/message";
 import { BiMap, BiEnvelope, BiPhone } from "react-icons/bi";
 
 export default function Contact() {
+  const { setMessage, setStatus, setLoading, loading } = useNotification();
+
   const nameRef = useRef();
   const emailRef = useRef();
   const messageRef = useRef();
 
   const formHandler = async (e) => {
     e.preventDefault();
-    if (!lengthCheck(nameRef.current?.value, 2, 50, "\\w")) {
+    if (!lengthCheck(nameRef.current?.value, 2, 50, ".")) {
       nameRef.current.focus();
       e.target.name.classList.add("error");
       return;
@@ -27,14 +31,34 @@ export default function Contact() {
     } else {
       e.target.email.classList.remove("error");
     }
-    if (!lengthCheck(messageRef.current?.value, 10, 500, "\\w")) {
+    if (!lengthCheck(messageRef.current?.value, 10, 500, ".")) {
       messageRef.current.focus();
       e.target.message.classList.add("error");
       return;
     } else {
       e.target.message.classList.remove("error");
     }
-    console.log("Form spree");
+
+    setLoading(true);
+    try {
+      const data = new FormData(e.target);
+
+      await fetch(formSpreeAction, {
+        method: "POST",
+        body: data,
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      setMessage("Your message has been sent");
+      setStatus("success");
+      e.target.reset();
+    } catch (error) {
+      setMessage("Something went wrong");
+      setStatus("error");
+    }
+    setLoading(false);
   };
 
   return (
@@ -81,12 +105,12 @@ export default function Contact() {
           ref={messageRef}
         />
         <Message addClass="tl mb">
-          * Name must be at least 2 characters long{" "}
+          * Name must be at least 2 characters long
         </Message>
         <Message addClass="tl mb">
           * Message must be at least 10 characters long
         </Message>
-        <button type="submit" className="btn">
+        <button type="submit" className="btn" disabled={loading}>
           Send Message
         </button>
       </form>

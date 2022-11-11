@@ -41,8 +41,10 @@ export default function AuthProvider({ children }) {
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged(user => {
 			setUser(user)
-			setMessage(`Welcome ${user.email}`)
-			setStatus('success')
+			if (user) {
+				setMessage(`Welcome ${user.email}`)
+				setStatus('success')
+			}
 		})
 		return unsubscribe
 	}, [setMessage, setStatus])

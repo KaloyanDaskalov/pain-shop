@@ -1,0 +1,1 @@
+export const formSpreeAction = 'https://formspree.io/f/mjvzjlyz'

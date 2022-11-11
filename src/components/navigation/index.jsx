@@ -7,6 +7,7 @@ import {
   BiCart,
   BiListUl,
   BiAddToQueue,
+  BiLogOut,
 } from "react-icons/bi";
 import Logo from "../../assets/logos/paint-shop-logo.svg";
 import Wrapper from "../util/wrapper";
@@ -15,7 +16,7 @@ import Separator from "../ui/separator";
 import classes from "./navigation.module.css";
 
 export default function Navigation() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   return (
     <header className={classes.header}>
@@ -30,21 +31,32 @@ export default function Navigation() {
                 {user ? <BiUserCheck /> : <BiUser />}
               </Link>
             </li>
-            <li>
-              <Link to="/" className={classes.link}>
-                <BiCart />
-              </Link>
-            </li>
-            <li>
-              <Link to="/" className={classes.link}>
-                <BiListUl />
-              </Link>
-            </li>
-            <li>
-              <Link to="/" className={classes.link}>
-                <BiAddToQueue />
-              </Link>
-            </li>
+            {user?.email !== "kala_ds@yahoo.com" && (
+              <li>
+                <Link to="/" className={classes.link}>
+                  <BiCart />
+                </Link>
+              </li>
+            )}
+            {user?.email === "kala_ds@yahoo.com" && (
+              <>
+                <li>
+                  <Link to="/" className={classes.link}>
+                    <BiListUl />
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/" className={classes.link}>
+                    <BiAddToQueue />
+                  </Link>
+                </li>
+              </>
+            )}
+            {user && (
+              <li>
+                <BiLogOut className={classes.link} onClick={logout} />
+              </li>
+            )}
           </ul>
         </nav>
       </Wrapper>

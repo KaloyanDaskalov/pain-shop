@@ -1,50 +1,81 @@
 import { useRef } from "react";
 import { useAuth } from "../state/user";
+import { useNotification } from "../state/notifications";
+import { emailValidation, lengthCheck } from "../utils/pattern";
+import { firebaseError } from "../utils/firebase-error";
 
 import Frame from "../components/util/frame";
 import Title from "../components/ui/title";
 import Message from "../components/ui/message";
-// import TextButton from "../components/ui/text-button";
 
 export default function Profile() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmRef = useRef();
   const { changeEmail, changePassword, user, logout } = useAuth();
+  const { setMessage, setStatus, setLoading, loading } = useNotification();
 
   const changeEmailHandler = async (e) => {
     e.preventDefault();
-    console.log("Email", emailRef.current?.value);
 
+    if (!emailValidation(emailRef.current?.value)) {
+      emailRef.current.focus();
+      emailRef.current.classList.add("error");
+      return;
+    } else {
+      emailRef.current.classList.remove("error");
+    }
+    setLoading(true);
     try {
       await changeEmail(emailRef.current?.value);
+      setMessage("Successfully change email to " + emailRef.current?.value);
+      setStatus("success");
+      await logout();
     } catch (error) {
       console.log(error);
+      setMessage(firebaseError(error.message));
+      setStatus("error");
     }
+    setLoading(false);
   };
 
   const changePasswordHandler = async (e) => {
     e.preventDefault();
-    console.log(
-      "Passwords",
-      passwordRef.current?.value,
-      confirmRef.current?.value
-    );
 
+    if (!lengthCheck(passwordRef.current?.value, 6, 50, "\\S")) {
+      passwordRef.current.focus();
+      passwordRef.current.classList.add("error");
+      return;
+    } else {
+      passwordRef.current.classList.remove("error");
+    }
+
+    if (passwordRef.current?.value !== confirmRef.current?.value) {
+      confirmRef.current.focus();
+      confirmRef.current.classList.add("error");
+      return;
+    } else {
+      confirmRef.current.classList.remove("error");
+    }
+
+    setLoading(true);
     try {
       await changePassword(passwordRef.current?.value);
+      setMessage("Successfully change password");
+      setStatus("success");
+      await logout();
     } catch (error) {
       console.log(error);
+      setMessage(firebaseError(error.message));
+      setStatus("error");
     }
+    setLoading(false);
   };
 
   return (
     <Frame>
       <Title>Profile</Title>
       <Message>{user?.email}</Message>
-      <button type="submit" className="btn" onClick={logout}>
-        Logout
-      </button>
       <form className="form" onSubmit={changeEmailHandler}>
         <input
           className="input"
@@ -55,7 +86,7 @@ export default function Profile() {
           id="email"
           ref={emailRef}
         />
-        <button type="submit" className="btn">
+        <button type="submit" className="btn" disabled={loading}>
           Change Email
         </button>
       </form>
@@ -78,8 +109,8 @@ export default function Profile() {
           id="confirm"
           ref={confirmRef}
         />
-        <Message>* Password must be 6 to 15 characters long</Message>
-        <button type="submit" className="btn">
+        <Message>* Password must be at least 6 characters long</Message>
+        <button type="submit" className="btn" disabled={loading}>
           Change Password
         </button>
       </form>

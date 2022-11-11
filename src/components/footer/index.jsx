@@ -1,4 +1,10 @@
-import { FaFacebook, FaLinkedinIn, FaTwitter } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import {
+  FaFacebook,
+  FaLinkedinIn,
+  FaInstagram,
+  FaEnvelope,
+} from "react-icons/fa";
 
 import classes from "./footer.module.css";
 
@@ -21,7 +27,7 @@ export default function Footer() {
         rel="noreferrer"
         className={classes.icon}
       >
-        <FaTwitter className={classes.icon} />
+        <FaInstagram className={classes.icon} />
       </a>
       <a
         href="https://www.linkedin.com"
@@ -31,8 +37,11 @@ export default function Footer() {
       >
         <FaLinkedinIn className={classes.icon} />
       </a>
+      <Link to="/contact">
+        <FaEnvelope className={classes.icon} />
+      </Link>
       <p className={classes.footerText}>
-        Copyright &copy {date} Paint shop. All rights reserved
+        Copyright &copy; {date} Paint shop. All rights reserved
       </p>
     </footer>
   );
