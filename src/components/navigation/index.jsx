@@ -26,8 +26,22 @@ export default function Navigation() {
         </Link>
         <nav className={classes.nav}>
           <ul className={classes.navbar}>
+            {user?.email === "kala_ds@yahoo.com" && (
+              <>
+                <li>
+                  <Link to="/" className={classes.link}>
+                    <BiAddToQueue />
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/" className={classes.link}>
+                    <BiListUl />
+                  </Link>
+                </li>
+              </>
+            )}
             <li>
-              <Link to="/auth" className={classes.link}>
+              <Link to={user ? "/profile" : "/auth"} className={classes.link}>
                 {user ? <BiUserCheck /> : <BiUser />}
               </Link>
             </li>
@@ -37,20 +51,6 @@ export default function Navigation() {
                   <BiCart />
                 </Link>
               </li>
-            )}
-            {user?.email === "kala_ds@yahoo.com" && (
-              <>
-                <li>
-                  <Link to="/" className={classes.link}>
-                    <BiListUl />
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/" className={classes.link}>
-                    <BiAddToQueue />
-                  </Link>
-                </li>
-              </>
             )}
             {user && (
               <li>

@@ -1,9 +1,5 @@
-import classes from './background.module.css'
+import classes from "./background.module.css";
 
 export default function Background({ children }) {
-	return (
-		<div className={classes.container}>
-			{children}
-		</div>
-	)
+  return <section className={classes.content}>{children}</section>;
 }
