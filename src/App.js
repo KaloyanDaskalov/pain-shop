@@ -10,6 +10,7 @@ import Home from './pages/home'
 import Auth from './pages/auth'
 import Profile from './pages/profile'
 import Contact from './pages/contact'
+import Create from './pages/create'
 
 function App() {
 
@@ -27,6 +28,9 @@ function App() {
         } />
         <Route path='profile' element={<ProtectedRoute isAllowed={!!user} redirectPath='/auth'>
           <Profile />
+        </ProtectedRoute>} />
+        <Route path='create' element={<ProtectedRoute isAllowed={user?.email === 'kala_ds@yahoo.com'} redirectPath='/'>
+          <Create />
         </ProtectedRoute>} />
         <Route path='contact' element={<Contact />} />
       </Routes>

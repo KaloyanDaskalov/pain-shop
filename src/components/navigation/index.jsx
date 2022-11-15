@@ -29,7 +29,7 @@ export default function Navigation() {
             {user?.email === "kala_ds@yahoo.com" && (
               <>
                 <li>
-                  <Link to="/" className={classes.link}>
+                  <Link to="/create" className={classes.link}>
                     <BiAddToQueue />
                   </Link>
                 </li>
