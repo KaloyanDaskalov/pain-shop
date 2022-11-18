@@ -1,32 +1,56 @@
 import { useRef } from "react";
-import { storage } from "../firebase";
-import { uploadBytes } from "@firebase/storage";
-// import { gallery } from "../firebase";
-// import { addDoc } from "@firebase/firestore";
+import { bucketUrl, gallery } from "../firebase";
+import { uploadBytes, ref, getDownloadURL } from "@firebase/storage";
+import { addDoc, serverTimestamp } from "@firebase/firestore";
+import { useNotification } from "../state/notifications";
 
 import Frame from "../components/util/frame";
 import Title from "../components/ui/title";
 
-//TODO image upload func
+const types = ["image/png", "image/jpeg", "image/webp", "image/avif"];
 
 export default function Create() {
   const nameRef = useRef();
-  const imageRef = useRef();
+  const priceRef = useRef();
   const descriptionRef = useRef();
+  const imageRef = useRef();
 
-  const submitHandler = (e) => {
+  const { setMessage, setStatus, setLoading, loading } = useNotification();
+
+  const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(nameRef.current?.value);
-    console.log(imageRef.current?.files[0].name);
-    console.log(descriptionRef.current?.value);
-    uploadBytes(storage, imageRef.current?.files[0]);
-    // if (messageRef.current.value) {
-    //   try {
-    //     addDoc(gallery, { message: messageRef.current.value });
-    //   } catch (e) {
-    //     console.log(e);
-    //   }
-    // }
+    const selected = imageRef.current.files[0];
+
+    if (selected && types.includes(selected.type)) {
+      imageRef.current.classList.remove("error");
+    } else {
+      imageRef.current.classList.add("error");
+      setMessage("Invalid file");
+      setStatus("error");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const storageRef = ref(bucketUrl, `gallery/${selected.name}`);
+      await uploadBytes(storageRef, selected);
+      const url = await getDownloadURL(storageRef);
+      await addDoc(gallery, {
+        name: nameRef.current.value,
+        price: priceRef.current.value,
+        description: descriptionRef.current.value,
+        imageURL: url,
+        createdAt: serverTimestamp(),
+      });
+      setLoading(false);
+      setMessage(`Successfully created ${nameRef.current.value} item`);
+      setStatus("success");
+      e.target.reset();
+    } catch (e) {
+      setLoading(false);
+      setMessage(e.message);
+      setStatus("error");
+    }
   };
 
   return (
@@ -44,12 +68,12 @@ export default function Create() {
         />
         <input
           className="input"
-          type="file"
+          type="text"
           required
-          placeholder="Image"
-          name="image"
-          id="image"
-          ref={imageRef}
+          placeholder="Price"
+          name="price"
+          id="price"
+          ref={priceRef}
         />
         <textarea
           className="area"
@@ -60,7 +84,16 @@ export default function Create() {
           id="description"
           ref={descriptionRef}
         />
-        <button type="submit" className="btn">
+        <input
+          className="input"
+          type="file"
+          required
+          placeholder="Image"
+          name="image"
+          id="image"
+          ref={imageRef}
+        />
+        <button type="submit" className="btn" disabled={loading}>
           Add
         </button>
       </form>
