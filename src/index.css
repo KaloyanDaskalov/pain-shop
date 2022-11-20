@@ -89,6 +89,29 @@ a {
   margin-bottom: 1em;
 }
 
+.input-file {
+  width: 100%;
+  margin: 1em 0;
+}
+
+.input-file > input {
+  display: none;
+}
+
+.input-file > label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  border: 2px solid var(--crayola);
+  font-size: 1rem;
+  padding: 0.5em 2em;
+  letter-spacing: 0.1rem;
+  color: var(--cadet);
+  transition: all 0.3s linear;
+  cursor: pointer;
+}
+
 /* .input:focus {
   outline: none;
   border-bottom: 2px solid var(--cadet);
@@ -118,7 +141,6 @@ a {
 .btn {
   background-color: var(--crayola);
   border: 2px solid var(--crayola);
-  border-radius: var(--radius);
   font-size: 1.35rem;
   letter-spacing: 0.1rem;
   color: var(--cadet);

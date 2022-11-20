@@ -1,9 +1,11 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { bucketUrl, gallery } from "../firebase";
 import { uploadBytes, ref, getDownloadURL } from "@firebase/storage";
 import { addDoc, serverTimestamp } from "@firebase/firestore";
 import { useNotification } from "../state/notifications";
+import { lengthCheck } from "../utils/pattern";
 
+import { BiUpload } from "react-icons/bi";
 import Frame from "../components/util/frame";
 import Title from "../components/ui/title";
 
@@ -13,27 +15,61 @@ export default function Create() {
   const nameRef = useRef();
   const priceRef = useRef();
   const descriptionRef = useRef();
-  const imageRef = useRef();
+  const [file, setFile] = useState(null);
 
   const { setMessage, setStatus, setLoading, loading } = useNotification();
 
+  const uploadHandler = (e) => {
+    e.preventDefault();
+    const selected = e.target.files[0];
+
+    if (selected && types.includes(selected?.type)) {
+      setFile(selected);
+    } else {
+      setFile(null);
+      setMessage("Invalid file");
+      setStatus("error");
+      return;
+    }
+  };
+
   const submitHandler = async (e) => {
     e.preventDefault();
-    const selected = imageRef.current.files[0];
 
-    if (selected && types.includes(selected.type)) {
-      imageRef.current.classList.remove("error");
+    if (!lengthCheck(nameRef.current?.value, 2, 50)) {
+      nameRef.current.focus();
+      nameRef.current.classList.add("error");
+      return;
     } else {
-      imageRef.current.classList.add("error");
-      setMessage("Invalid file");
+      nameRef.current.classList.remove("error");
+    }
+
+    if (!lengthCheck(priceRef.current?.value, 1, 6, "\\d")) {
+      priceRef.current.focus();
+      priceRef.current.classList.add("error");
+      return;
+    } else {
+      priceRef.current.classList.remove("error");
+    }
+
+    if (!lengthCheck(descriptionRef.current?.value, 10, 100)) {
+      descriptionRef.current.focus();
+      descriptionRef.current.classList.add("error");
+      return;
+    } else {
+      descriptionRef.current.classList.remove("error");
+    }
+
+    if (!file) {
+      setMessage("Select an image");
       setStatus("error");
       return;
     }
 
     setLoading(true);
     try {
-      const storageRef = ref(bucketUrl, `gallery/${selected.name}`);
-      await uploadBytes(storageRef, selected);
+      const storageRef = ref(bucketUrl, `gallery/${file.name}`);
+      await uploadBytes(storageRef, file);
       const url = await getDownloadURL(storageRef);
       await addDoc(gallery, {
         name: nameRef.current.value,
@@ -45,6 +81,7 @@ export default function Create() {
       setLoading(false);
       setMessage(`Successfully created ${nameRef.current.value} item`);
       setStatus("success");
+      setFile(null);
       e.target.reset();
     } catch (e) {
       setLoading(false);
@@ -84,15 +121,20 @@ export default function Create() {
           id="description"
           ref={descriptionRef}
         />
-        <input
-          className="input"
-          type="file"
-          required
-          placeholder="Image"
-          name="image"
-          id="image"
-          ref={imageRef}
-        />
+        <section className="input-file">
+          <input
+            type="file"
+            required
+            placeholder="Image"
+            name="image"
+            id="image"
+            onChange={uploadHandler}
+          />
+          <label htmlFor="image">
+            <BiUpload className="icon" />
+            <span>{file?.name || "No file selected."}</span>
+          </label>
+        </section>
         <button type="submit" className="btn" disabled={loading}>
           Add
         </button>

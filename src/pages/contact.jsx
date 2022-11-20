@@ -17,26 +17,26 @@ export default function Contact() {
 
   const formHandler = async (e) => {
     e.preventDefault();
-    if (!lengthCheck(nameRef.current?.value, 2, 50, ".")) {
+    if (!lengthCheck(nameRef.current?.value, 2, 50)) {
       nameRef.current.focus();
-      e.target.name.classList.add("error");
+      nameRef.classList.add("error");
       return;
     } else {
-      e.target.name.classList.remove("error");
+      nameRef.classList.remove("error");
     }
     if (!emailValidation(emailRef.current?.value)) {
       emailRef.current.focus();
-      e.target.email.classList.add("error");
+      emailRef.classList.add("error");
       return;
     } else {
-      e.target.email.classList.remove("error");
+      emailRef.classList.remove("error");
     }
-    if (!lengthCheck(messageRef.current?.value, 10, 500, ".")) {
+    if (!lengthCheck(messageRef.current?.value, 10, 500)) {
       messageRef.current.focus();
-      e.target.message.classList.add("error");
+      messageRef.classList.add("error");
       return;
     } else {
-      e.target.message.classList.remove("error");
+      messageRef.classList.remove("error");
     }
 
     setLoading(true);

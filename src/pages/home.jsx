@@ -1,60 +1,37 @@
-import { useRef } from "react";
-import { firestore } from "../firebase";
-import { addDoc, collection } from "@firebase/firestore";
+import { useState, useEffect } from "react";
+import { gallery } from "../firebase";
+import { query, orderBy, getDocs } from "firebase/firestore";
+
 import Frame from "../components/util/frame";
 import Title from "../components/ui/title";
-
-// TODO react-responsive-carousel
+// import Carousel from "../components/carousel";
+import ImageSlider from "../components/carousel/image-slider";
 
 export default function Home() {
-  const messageRef = useRef();
+  const [data, setData] = useState(null);
 
-  const db = collection(firestore, "messages");
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-    if (messageRef.current.value) {
-      try {
-        addDoc(db, { message: messageRef.current.value });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  };
+  useEffect(() => {
+    const q = query(gallery, orderBy("createdAt", "desc"));
+    getDocs(q)
+      .then((snap) => {
+        const docs = [];
+        snap.forEach((doc) => {
+          docs.push({ ...doc.data(), id: doc.id });
+        });
+        setData(docs);
+      })
+      .catch(console.log);
+  }, []);
 
   return (
-    <Frame>
-      <Title>Home</Title>
-      <form onSubmit={submitHandler}>
-        <label htmlFor="message">Add message</label>
-        <input type="text" id="message" name="message" ref={messageRef} />
-        <button type="submit">Add</button>
-      </form>
+    <Frame addClass="wide">
+      <Title>Gallery</Title>
+      <ImageSlider slides={data} />
+      {/* <Carousel>
+        {data?.map((i) => (
+          <img key={i.id} src={i.imageURL} alt="painting view" />
+        ))}
+      </Carousel> */}
     </Frame>
   );
 }
-
-/*
-  import { firestore } from "../firebase";
-  import { addDoc, collection } from "@firebase/firestore";
-
-  const messageRef = useRef();
-  const db = collection(firestore, "messages");
-
-    const submitHandler = (e) => {
-    e.preventDefault();
-    if (messageRef.current.value) {
-      try {
-        addDoc(db, { message: messageRef.current.value });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  };
-
-  <form onSubmit={submitHandler}>
-    <label htmlFor="message">Add message</label>
-    <input type="text" id="message" name="message" ref={messageRef} />
-    <button type="submit">Add</button>
-  </form>
-*/

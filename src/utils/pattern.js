@@ -1,6 +1,6 @@
 const patternEmail = /^[\w!#$%&'*+\-=?^_`{|}~]+(\.[\w!#$%&'*+\-=?^_`{|}~]+)*@((([-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))/;
 
-export const lengthCheck = (value = '', min = 0, max = 1000, type = '\\S') => {
+export const lengthCheck = (value = '', min = 0, max = 1000, type = '.') => {
     const regEx = new RegExp(`^${type}{${min},${max}}$`)
     return regEx.test(value)
 }
