@@ -11,6 +11,8 @@ export default function Home() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
+    let ignore = false;
+
     const q = query(gallery, orderBy("createdAt", "desc"));
     getDocs(q)
       .then((snap) => {
@@ -18,9 +20,11 @@ export default function Home() {
         snap.forEach((doc) => {
           docs.push({ ...doc.data(), id: doc.id });
         });
-        setData(docs);
+        if (!ignore) setData(docs);
       })
       .catch(console.log);
+
+    return () => (ignore = true);
   }, []);
 
   return (

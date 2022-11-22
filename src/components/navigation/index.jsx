@@ -47,7 +47,7 @@ export default function Navigation() {
             </li>
             {user?.email !== "kala_ds@yahoo.com" && (
               <li>
-                <Link to="/" className={classes.link}>
+                <Link to="/cart" className={classes.link}>
                   <BiCart />
                 </Link>
               </li>

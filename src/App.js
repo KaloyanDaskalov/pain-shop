@@ -11,6 +11,7 @@ import Auth from './pages/auth'
 import Profile from './pages/profile'
 import Contact from './pages/contact'
 import Create from './pages/create'
+import Cart from "./pages/cart"
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
       <Navigation />
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/cart' element={<Cart />} />
         <Route path='auth' element={
           <ProtectedRoute isAllowed={!Boolean(user)} redirectPath='/profile'>
             <Auth />
