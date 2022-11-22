@@ -1,17 +1,17 @@
 .message {
-	font-style: italic;
+  font-style: italic;
 }
 
 .mb {
-	margin-bottom: 0.5em;
-	font-size: 1.1rem;
+  margin-bottom: 0.5em;
+  font-size: 1.1rem;
 }
 
 .tl {
-	text-align: left;
+  text-align: left;
 }
 
 .weather {
-	color: var(--cadet);
-	font-weight: 700;
+  color: var(--secondary);
+  font-weight: 700;
 }

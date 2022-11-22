@@ -2,11 +2,11 @@
 
 :root {
   box-sizing: border-box;
-  --magnolia: #fffaff;
-  --crayola: #3e92cc;
-  --green: #62c370;
-  --cadet: #2d3142;
-  --sienna: #ee6c4d;
+  --primary: #3e92cc;
+  --secondary: #2d3142;
+  --light: #fffaff;
+  --success: #62c370;
+  --danger: #ee6c4d;
 }
 
 *,
@@ -19,7 +19,7 @@
 
 ::placeholder {
   font-style: italic;
-  color: var(--cadet);
+  color: var(--secondary);
 }
 
 ::-moz-placeholder {
@@ -82,10 +82,10 @@ a {
   padding: 0.1rem 0.5rem;
   width: 100%;
   border: none;
-  border-bottom: 2px solid var(--crayola);
+  border-bottom: 2px solid var(--primary);
   font-size: 1.2rem;
   background-color: inherit;
-  color: var(--cadet);
+  color: var(--secondary);
   margin-bottom: 1em;
 }
 
@@ -103,18 +103,18 @@ a {
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  border: 2px solid var(--crayola);
+  border: 2px solid var(--primary);
   font-size: 1rem;
   padding: 0.5em 2em;
   letter-spacing: 0.1rem;
-  color: var(--cadet);
+  color: var(--secondary);
   transition: all 0.3s linear;
   cursor: pointer;
 }
 
 /* .input:focus {
   outline: none;
-  border-bottom: 2px solid var(--cadet);
+  border-bottom: 2px solid var(--secondary);
 } */
 
 /* text area */
@@ -124,26 +124,26 @@ a {
   padding: 0.1rem 0.5rem;
   width: 100%;
   border: none;
-  border-bottom: 2px solid var(--crayola);
+  border-bottom: 2px solid var(--primary);
   font-size: 1.2rem;
   background-color: inherit;
-  color: var(--cadet);
+  color: var(--secondary);
   margin-bottom: 1em;
   min-height: 10rem;
 }
 
 .error {
-  border-bottom: 2px solid var(--sienna);
+  border-bottom: 2px solid var(--danger);
 }
 
 /* button */
 
 .btn {
-  background-color: var(--crayola);
-  border: 2px solid var(--crayola);
+  background-color: var(--primary);
+  border: 2px solid var(--primary);
   font-size: 1.35rem;
   letter-spacing: 0.1rem;
-  color: var(--cadet);
+  color: var(--secondary);
   transition: all 0.3s linear;
   cursor: pointer;
   padding: 0.5em 2em;
@@ -154,7 +154,7 @@ a {
 
 .btn:hover {
   background-color: transparent;
-  color: var(--crayola);
+  color: var(--primary);
   /* display: inline-block; */
 }
 
@@ -163,11 +163,11 @@ a {
 }
 
 .border {
-  border-color: var(--cadet);
+  border-color: var(--secondary);
 }
 
 .btn:disabled {
-  color: var(--magnolia);
+  color: var(--light);
   background-color: #ddd;
 }
 

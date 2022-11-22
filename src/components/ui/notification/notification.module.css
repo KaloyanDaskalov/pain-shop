@@ -2,8 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--magnolia);
-  background-color: var(--crayola);
+  color: var(--light);
+  background-color: var(--primary);
   padding: 0 0.5rem;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
   position: fixed;
@@ -20,11 +20,11 @@
 }
 
 .success {
-  background-color: var(--green);
+  background-color: var(--success);
 }
 
 .error {
-  background-color: var(--sienna);
+  background-color: var(--danger);
 }
 
 @media (min-width: 768px) {

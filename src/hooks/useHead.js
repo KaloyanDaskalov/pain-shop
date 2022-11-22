@@ -11,6 +11,6 @@ export default function useHead(title = 'No title', prevailOnUnmount = false) {
 		if (!prevailOnUnmount) {
 			document.title = defaultTitle.current;
 		}
-	}, [])
+	}, [prevailOnUnmount])
 }
 

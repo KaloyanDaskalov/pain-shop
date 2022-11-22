@@ -1,15 +1,15 @@
 .frame {
-	width: 90vw;
-	max-width: 30rem;
-	background-color: var(--magnolia);
-	box-shadow: 5px 5px 15px 0px #000000;
-	color: var(--cadet);
-	font-style: italic;
-	font-weight: bold;
-	text-align: center;
-	padding: 2rem 3rem;
+  width: 90vw;
+  max-width: 30rem;
+  background-color: var(--light);
+  box-shadow: 5px 5px 15px 0px #000000;
+  color: var(--secondary);
+  font-style: italic;
+  font-weight: bold;
+  text-align: center;
+  padding: 2rem 3rem;
 }
 
 .wide {
-	max-width: 1200px;
+  max-width: 1200px;
 }

@@ -3,16 +3,39 @@
   height: 100%;
 }
 
+.navigation {
+  position: relative;
+}
+
+.container {
+  overflow: hidden;
+  height: 45vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .image {
-  display: block;
-  width: 100%;
   object-fit: cover;
 }
 
 .arrow {
-  font-size: 2.5rem;
+  font-size: calc(2.5rem + 1vw);
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
+  background-color: var(--primary);
+  border-radius: 50%;
+  color: var(--light);
+}
+
+.name {
+  margin: 1rem 0;
+}
+
+@media only screen and (min-width: 576px) {
+  .title {
+    font-size: calc(1.85rem + 2vw);
+  }
 }

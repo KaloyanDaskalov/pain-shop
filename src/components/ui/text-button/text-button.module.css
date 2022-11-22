@@ -1,11 +1,11 @@
 .button {
-	display: inline-block;
-	cursor: pointer;
-	color: var(--crayola);
-	margin-inline-start: .5rem;
-	transition: transform 0.15s linear;
+  display: inline-block;
+  cursor: pointer;
+  color: var(--primary);
+  margin-inline-start: 0.5rem;
+  transition: transform 0.15s linear;
 }
 
 .button:hover {
-	transform: scale(1.05);
+  transform: scale(1.05);
 }
