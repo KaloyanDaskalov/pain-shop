@@ -1,22 +1,16 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../../state/user";
 
-import {
-  BiUser,
-  BiUserCheck,
-  BiCart,
-  BiListUl,
-  BiAddToQueue,
-  BiLogOut,
-} from "react-icons/bi";
+import { BiUser, BiUserCheck, BiCart, BiListUl, BiAddToQueue, BiLogOut } from "react-icons/bi";
 import Logo from "../../assets/logos/paint-shop-logo.svg";
 import Wrapper from "../util/wrapper";
 import Separator from "../ui/separator";
+import Badge from "../ui/badge";
 
 import classes from "./navigation.module.css";
 
 export default function Navigation() {
-  const { user, logout } = useAuth();
+  const { user, logout, cart } = useAuth();
 
   return (
     <header className={classes.header}>
@@ -46,9 +40,10 @@ export default function Navigation() {
               </Link>
             </li>
             {user?.email !== "kala_ds@yahoo.com" && (
-              <li>
+              <li style={{ position: "relative" }}>
                 <Link to="/cart" className={classes.link}>
                   <BiCart />
+                  {!!cart.length && <Badge value={cart.length} top={7} right={-3} />}
                 </Link>
               </li>
             )}

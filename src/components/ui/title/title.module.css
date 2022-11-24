@@ -1,5 +1,5 @@
 .title {
-  font-size: calc(1.5rem + 1vw);
+  font-size: calc(1rem + 1vw);
   font-weight: 800;
   word-break: break-word;
 }
@@ -10,6 +10,6 @@
 
 @media only screen and (min-width: 576px) {
   .title {
-    font-size: calc(1.85rem + 2vw);
+    font-size: calc(1rem + 2vw);
   }
 }

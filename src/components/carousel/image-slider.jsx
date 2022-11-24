@@ -1,5 +1,7 @@
 import { useState } from "react";
 import useHead from "../../hooks/useHead";
+import { useAuth } from "../../state/user";
+import { useNotification } from "../../state/notifications";
 import classes from "./image-slider.module.css";
 
 import { BiCaretLeft, BiCaretRight } from "react-icons/bi";
@@ -7,6 +9,8 @@ import Buttons from "../ui/button-group";
 
 export default function ImageSlider({ slides = [] }) {
   const [index, setIndex] = useState(0);
+  const { cart, setCart } = useAuth();
+  const { setMessage, setStatus } = useNotification();
 
   useHead(slides[index].name);
 
@@ -20,6 +24,18 @@ export default function ImageSlider({ slides = [] }) {
     setIndex(newIndex < 0 ? slides.length - 1 : newIndex);
   };
 
+  const addToCartHandler = () => {
+    const newItem = slides[index];
+    if (!cart.some((i) => i.id === newItem.id)) {
+      setCart([...cart, newItem]);
+      setMessage("Added to cart " + newItem.name);
+      setStatus("success");
+    } else {
+      setMessage(newItem.name + " already exist in your cart");
+      setStatus("error");
+    }
+  };
+
   return (
     <article>
       <figure className={classes.figure}>
@@ -30,11 +46,7 @@ export default function ImageSlider({ slides = [] }) {
             onClick={nextHandler}
           />
           <div className={classes.container}>
-            <img
-              className={classes.image}
-              src={slides[index].imageURL}
-              alt="Trulli"
-            />
+            <img className={classes.image} src={slides[index].imageURL} alt="Trulli" />
           </div>
           <BiCaretRight
             className={classes.arrow}
@@ -47,7 +59,9 @@ export default function ImageSlider({ slides = [] }) {
       </figure>
       <Buttons>
         <button className="btn border">Buy</button>
-        <button className="btn border">Add to cart</button>
+        <button className="btn border" onClick={addToCartHandler}>
+          Add to cart
+        </button>
       </Buttons>
     </article>
   );

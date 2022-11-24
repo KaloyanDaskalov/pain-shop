@@ -1,42 +1,44 @@
+import { Link } from "react-router-dom";
 import useHead from "../hooks/useHead";
-
-import { data } from "../utils/data";
+import { useAuth } from "../state/user";
 
 import Frame from "../components/util/frame";
 import Title from "../components/ui/title";
+import CartTable from "../components/cart-table";
 import Message from "../components/ui/message";
 import Buttons from "../components/ui/button-group";
 
 export default function Cart() {
   useHead("Shopping cart ");
+  const { cart, setCart } = useAuth();
+
+  const total = cart.reduce((a, i) => a + Number(i.price), 0);
+
+  const deleteItemHandler = (id) => {
+    const newCart = cart.filter((i) => i.id !== id);
+    setCart(newCart);
+  };
+
   return (
     <Frame>
       <Title>Cart</Title>
-      <table>
-        <thead>
-          <tr>
-            <th>item</th>
-            <th>name</th>
-            <th>price</th>
-            <th>action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <img src={data[0].imageURL} alt="item" width="50" />
-            </td>
-            <td>{data[0].name}</td>
-            <td>{data[0].price}</td>
-            <td>delete</td>
-          </tr>
-        </tbody>
-      </table>
-      <Message>Total: 100</Message>
-      <Buttons>
-        <button className="btn border">Confirm</button>
-        <button className="btn border">Back</button>
-      </Buttons>
+      {cart.length === 0 ? (
+        <>
+          <Message addClass="mb">Cart is empty.</Message>
+          <Link to="/" className="btn">
+            Back to shopping
+          </Link>
+        </>
+      ) : (
+        <>
+          <CartTable items={cart} removeItem={deleteItemHandler} />
+          <Message addClass="mb">Total: {total}$</Message>
+          <Buttons>
+            <button className="btn border">Confirm</button>
+            <button className="btn border">Back</button>
+          </Buttons>
+        </>
+      )}
     </Frame>
   );
 }

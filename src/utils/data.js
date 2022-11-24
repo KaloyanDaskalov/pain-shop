@@ -9,7 +9,8 @@ export const data = [
         ,
         description: "Super modern glass"
         ,
-        name: "Glass"
+        name: "Glass",
+        id: 1
 
     },
     {
@@ -22,7 +23,8 @@ export const data = [
         ,
         description: "Portrait of a proud woman"
         ,
-        name: "Proud woman"
+        name: "Proud woman",
+        id: 2
 
     },
     {
@@ -35,7 +37,8 @@ export const data = [
         ,
         price: "45"
         ,
-        name: "Portrait"
+        name: "Portrait",
+        id: 3
 
     },
 
@@ -49,7 +52,8 @@ export const data = [
         name: "Child"
         ,
         imageURL:
-            "https://firebasestorage.googleapis.com/v0/b/paint-shop-7884e.appspot.com/o/gallery%2Fchild.jpg?alt=media&token=219a0114-ab10-429d-b991-ae4fb4ee9289"
+            "https://firebasestorage.googleapis.com/v0/b/paint-shop-7884e.appspot.com/o/gallery%2Fchild.jpg?alt=media&token=219a0114-ab10-429d-b991-ae4fb4ee9289",
+        id: 4
 
     }
 ];

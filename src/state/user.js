@@ -11,6 +11,7 @@ export function useAuth() {
 
 export default function AuthProvider({ children }) {
 	const [user, setUser] = useState(null)
+	const [cart, setCart] = useState([])
 
 	const { setMessage, setStatus } = useNotification()
 
@@ -56,8 +57,10 @@ export default function AuthProvider({ children }) {
 		logout,
 		resetPassword,
 		changeEmail,
-		changePassword
-	}), [user, register, login, logout, resetPassword, changeEmail, changePassword])
+		changePassword,
+		cart,
+		setCart
+	}), [user, register, login, logout, resetPassword, changeEmail, changePassword, cart, setCart])
 
 	return (
 		<AuthContext.Provider value={context} >
