@@ -12,6 +12,7 @@ import Profile from './pages/profile'
 import Contact from './pages/contact'
 import Create from './pages/create'
 import Cart from "./pages/cart"
+import Edit from './pages/edit'
 
 function App() {
 
@@ -33,6 +34,9 @@ function App() {
         </ProtectedRoute>} />
         <Route path='create' element={<ProtectedRoute isAllowed={user?.email === 'kala_ds@yahoo.com'} redirectPath='/'>
           <Create />
+        </ProtectedRoute>} />
+        <Route path='edit/:itemID' element={<ProtectedRoute isAllowed={user?.email === 'kala_ds@yahoo.com'} redirectPath='/'>
+          <Edit />
         </ProtectedRoute>} />
         <Route path='contact' element={<Contact />} />
       </Routes>

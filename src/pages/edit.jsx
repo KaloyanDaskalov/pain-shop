@@ -1,9 +1,11 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { bucketUrl, gallery } from "../firebase";
 import { uploadBytes, ref, getDownloadURL } from "@firebase/storage";
-import { addDoc, serverTimestamp } from "@firebase/firestore";
+import { getDoc, updateDoc, doc } from "@firebase/firestore";
+import { useParams, useNavigate } from "react-router-dom";
 import { useNotification } from "../state/notifications";
 import { lengthCheck } from "../utils/pattern";
+import { firebaseError } from "../utils/firebase-error";
 
 import { BiUpload } from "react-icons/bi";
 import Frame from "../components/util/frame";
@@ -11,19 +13,40 @@ import Title from "../components/ui/title";
 
 const types = ["image/png", "image/jpeg", "image/webp", "image/avif"];
 
-export default function Create() {
+export default function Edit() {
   const nameRef = useRef();
   const priceRef = useRef();
   const descriptionRef = useRef();
   const [file, setFile] = useState(null);
+  const [fileLoc, setFileLoc] = useState(null);
+  const navigate = useNavigate();
+  const { itemID } = useParams();
 
   const { setMessage, setStatus, setLoading, loading } = useNotification();
 
+  useEffect(() => {
+    let ignore = false;
+
+    const docRef = doc(gallery, itemID);
+    getDoc(docRef)
+      .then((snap) => {
+        if (!ignore && snap) {
+          const item = snap.data();
+          nameRef.current.value = item.name;
+          priceRef.current.value = item.price;
+          descriptionRef.current.value = item.description;
+          setFileLoc(item.imageLoc);
+        }
+      })
+      .catch(console.log);
+
+    return () => (ignore = true);
+  });
+
   const uploadHandler = (e) => {
-    e.preventDefault();
     const selected = e.target.files[0];
 
-    if (selected && types.includes(selected?.type)) {
+    if (selected && types.includes(selected.type)) {
       setFile(selected);
     } else {
       setFile(null);
@@ -60,41 +83,44 @@ export default function Create() {
       descriptionRef.current.classList.remove("error");
     }
 
-    if (!file) {
-      setMessage("Select an image");
-      setStatus("error");
-      return;
-    }
-
     setLoading(true);
+    const item = {
+      name: nameRef.current.value,
+      price: priceRef.current.value,
+      description: descriptionRef.current.value
+    };
+    if (file) {
+      try {
+        const storageRef = ref(bucketUrl, fileLoc);
+        await uploadBytes(storageRef, file);
+        const url = await getDownloadURL(storageRef);
+        item.url = url;
+      } catch (error) {
+        setLoading(false);
+        setMessage(firebaseError(e.setMessage));
+        setStatus("error");
+        return;
+      }
+    }
     try {
-      const imageLoc = `gallery/${file.name}`;
-      const storageRef = ref(bucketUrl, imageLoc);
-      await uploadBytes(storageRef, file);
-      const url = await getDownloadURL(storageRef);
-      await addDoc(gallery, {
-        name: nameRef.current.value,
-        price: priceRef.current.value,
-        description: descriptionRef.current.value,
-        imageURL: url,
-        imageLoc,
-        createdAt: serverTimestamp()
-      });
+      const docRef = doc(gallery, itemID);
+      await updateDoc(docRef, item);
       setLoading(false);
-      setMessage(`Successfully created ${nameRef.current.value} item`);
+      setMessage(`Successfully edited "${nameRef.current.value}" item`);
       setStatus("success");
       setFile(null);
       e.target.reset();
+      navigate("/");
     } catch (e) {
       setLoading(false);
-      setMessage(e.message);
+      setMessage(firebaseError(e.setMessage));
       setStatus("error");
     }
   };
 
   return (
     <Frame>
-      <Title>Add Item</Title>
+      <Title>Edit Item</Title>
       <form onSubmit={submitHandler}>
         <input
           className="input"
@@ -124,21 +150,14 @@ export default function Create() {
           ref={descriptionRef}
         />
         <section className="input-file">
-          <input
-            type="file"
-            required
-            placeholder="Image"
-            name="image"
-            id="image"
-            onChange={uploadHandler}
-          />
+          <input type="file" placeholder="Image" name="image" id="image" onChange={uploadHandler} />
           <label htmlFor="image">
             <BiUpload className="icon" />
             <span>{file?.name || "No file selected."}</span>
           </label>
         </section>
         <button type="submit" className="btn" disabled={loading}>
-          Add
+          Edit
         </button>
       </form>
     </Frame>
