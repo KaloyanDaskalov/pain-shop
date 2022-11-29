@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect, useCallback, useMemo } from 'react'
 import { auth } from '../firebase'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, updateEmail, updatePassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, updateEmail, updatePassword, updateProfile } from 'firebase/auth'
 import { useNotification } from "./notifications"
 
 export const AuthContext = React.createContext()
@@ -35,6 +35,18 @@ export default function AuthProvider({ children }) {
 		return updateEmail(auth.currentUser, email)
 	}, [])
 
+	const changeName = useCallback((displayName) => {
+		return updateProfile(auth.currentUser, {
+			displayName
+		})
+	}, [])
+
+	const changeAddress = useCallback((photoURL) => {
+		return updateProfile(auth.currentUser, {
+			photoURL
+		})
+	}, [])
+
 	const changePassword = useCallback((password) => {
 		return updatePassword(auth.currentUser, password)
 	}, [])
@@ -59,8 +71,10 @@ export default function AuthProvider({ children }) {
 		changeEmail,
 		changePassword,
 		cart,
-		setCart
-	}), [user, register, login, logout, resetPassword, changeEmail, changePassword, cart, setCart])
+		setCart,
+		changeName,
+		changeAddress
+	}), [user, register, login, logout, resetPassword, changeEmail, changePassword, cart, setCart, changeName, changeAddress])
 
 	return (
 		<AuthContext.Provider value={context} >

@@ -13,7 +13,7 @@ import Contact from './pages/contact'
 import Create from './pages/create'
 import Cart from "./pages/cart"
 import Edit from './pages/edit'
-// import Shipping from './pages/shipping'
+import NotFound from "./pages/404"
 
 function App() {
 
@@ -24,23 +24,21 @@ function App() {
       <Navigation />
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/cart' element={<Cart />} />
-        {/* <Route path='/shipping/:item' element={<Shipping />} /> */}
         <Route path='auth' element={
           <ProtectedRoute isAllowed={!Boolean(user)} redirectPath='/profile'>
             <Auth />
           </ProtectedRoute>
         } />
-        <Route path='profile' element={<ProtectedRoute isAllowed={!!user} redirectPath='/auth'>
-          <Profile />
-        </ProtectedRoute>} />
-        <Route path='create' element={<ProtectedRoute isAllowed={user?.email === 'kala_ds@yahoo.com'} redirectPath='/'>
-          <Create />
-        </ProtectedRoute>} />
-        <Route path='edit/:itemID' element={<ProtectedRoute isAllowed={user?.email === 'kala_ds@yahoo.com'} redirectPath='/'>
-          <Edit />
-        </ProtectedRoute>} />
+        <Route element={<ProtectedRoute isAllowed={!!user} redirectPath='/auth' />} >
+          <Route path="profile" element={<Profile />} />
+          <Route path="cart" element={<Cart />} />
+        </Route>
+        <Route element={<ProtectedRoute isAllowed={user?.email === 'kala_ds@yahoo.com'} redirectPath='/' />}>
+          <Route path='create' element={<Create />} />
+          <Route path='edit/:itemID' element={<Edit />} />
+        </Route>
         <Route path='contact' element={<Contact />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </>

@@ -12,8 +12,56 @@ export default function Profile() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmRef = useRef();
-  const { changeEmail, changePassword, user, logout } = useAuth();
+  const nameRef = useRef();
+  const addressRef = useRef();
+  const { changeEmail, changePassword, user, logout, changeName, changeAddress } = useAuth();
   const { setMessage, setStatus, setLoading, loading } = useNotification();
+
+  const changeNameHandler = async (e) => {
+    e.preventDefault();
+
+    if (!lengthCheck(nameRef.current?.value, 6, 40)) {
+      nameRef.current.focus();
+      nameRef.current.classList.add("error");
+      return;
+    } else {
+      nameRef.current.classList.remove("error");
+    }
+    setLoading(true);
+    try {
+      await changeName(nameRef.current.value);
+      setMessage("Successfully change Name to " + nameRef.current.value);
+      setStatus("success");
+      setLoading(false);
+    } catch (error) {
+      setMessage(firebaseError(error.message));
+      setStatus("error");
+    }
+    setLoading(false);
+  };
+
+  const changeAddressHandler = async (e) => {
+    e.preventDefault();
+
+    if (!lengthCheck(addressRef.current?.value, 6, 40)) {
+      addressRef.current.focus();
+      addressRef.current.classList.add("error");
+      return;
+    } else {
+      addressRef.current.classList.remove("error");
+    }
+    setLoading(true);
+    try {
+      await changeAddress(addressRef.current.value);
+      setMessage("Successfully change Address to " + addressRef.current.value);
+      setStatus("success");
+      setLoading(false);
+    } catch (error) {
+      setMessage(firebaseError(error.message));
+      setStatus("error");
+    }
+    setLoading(false);
+  };
 
   const changeEmailHandler = async (e) => {
     e.preventDefault();
@@ -32,7 +80,6 @@ export default function Profile() {
       setStatus("success");
       await logout();
     } catch (error) {
-      console.log(error);
       setMessage(firebaseError(error.message));
       setStatus("error");
     }
@@ -65,7 +112,6 @@ export default function Profile() {
       setStatus("success");
       await logout();
     } catch (error) {
-      console.log(error);
       setMessage(firebaseError(error.message));
       setStatus("error");
     }
@@ -76,6 +122,34 @@ export default function Profile() {
     <Frame>
       <Title>Profile</Title>
       <Message>{user?.email}</Message>
+      <form className="form" onSubmit={changeNameHandler}>
+        <input
+          className="input"
+          type="text"
+          required
+          placeholder="First and Last Name"
+          name="name"
+          id="name"
+          ref={nameRef}
+        />
+        <button type="submit" className="btn" disabled={loading}>
+          Change Name
+        </button>
+      </form>
+      <form className="form" onSubmit={changeAddressHandler}>
+        <input
+          className="input"
+          type="text"
+          required
+          placeholder="Shipping address"
+          name="address"
+          id="address"
+          ref={addressRef}
+        />
+        <button type="submit" className="btn" disabled={loading}>
+          Change Address
+        </button>
+      </form>
       <form className="form" onSubmit={changeEmailHandler}>
         <input
           className="input"

@@ -11,6 +11,7 @@ import { firebaseError } from "../../utils/firebase-error";
 import { Link } from "react-router-dom";
 import { BiCaretLeft, BiCaretRight } from "react-icons/bi";
 import Buttons from "../ui/button-group";
+import PopUp from "../ui/pop-up";
 
 export default function ImageSlider({ slides = [], forceUpdate }) {
   const [index, setIndex] = useState(0);
@@ -50,20 +51,32 @@ export default function ImageSlider({ slides = [], forceUpdate }) {
   };
 
   const deleteItemHandler = async () => {
-    setLoading(true);
-    const deletedItem = slides[index];
-    try {
-      const storageRef = ref(bucketUrl, deletedItem.imageLoc);
-      await deleteObject(storageRef);
-      await deleteDoc(doc(gallery, deletedItem.id));
-      setMessage(`Item "${deletedItem.name}" was deleted`);
-      setStatus("success");
-      forceUpdate();
-    } catch (error) {
-      setMessage(firebaseError(error.message));
-      setStatus("error");
+    setModal(
+      <PopUp message={"Do you wanna to delete " + slides[index].name}>
+        <button className="btn border btn-small" onClick={() => deleteItem()}>
+          Confirm
+        </button>
+        <button className="btn border btn-small" onClick={() => setModal(null)}>
+          Cancel
+        </button>
+      </PopUp>
+    );
+    async function deleteItem() {
+      setLoading(true);
+      const deletedItem = slides[index];
+      try {
+        const storageRef = ref(bucketUrl, deletedItem.imageLoc);
+        await deleteObject(storageRef);
+        await deleteDoc(doc(gallery, deletedItem.id));
+        setMessage(`Item "${deletedItem.name}" was deleted`);
+        setStatus("success");
+        forceUpdate();
+      } catch (error) {
+        setMessage(firebaseError(error.message));
+        setStatus("error");
+      }
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const showPictureHandler = () => {
