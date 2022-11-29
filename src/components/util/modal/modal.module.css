@@ -1,0 +1,30 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  /* position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--light);
+  padding: 50px;
+  z-index: 100; */
+  max-width: 45vw;
+  /* max-height: 50vh; */
+}
+
+@media only screen and (max-width: 900px) {
+  .modal {
+    max-width: 80vw;
+  }
+}

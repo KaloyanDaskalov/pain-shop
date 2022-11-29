@@ -13,6 +13,7 @@ import Contact from './pages/contact'
 import Create from './pages/create'
 import Cart from "./pages/cart"
 import Edit from './pages/edit'
+// import Shipping from './pages/shipping'
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/cart' element={<Cart />} />
+        {/* <Route path='/shipping/:item' element={<Shipping />} /> */}
         <Route path='auth' element={
           <ProtectedRoute isAllowed={!Boolean(user)} redirectPath='/profile'>
             <Auth />

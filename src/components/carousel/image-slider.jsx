@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { deleteDoc, doc } from "@firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
 import { gallery, bucketUrl } from "../../firebase";
@@ -13,8 +14,9 @@ import Buttons from "../ui/button-group";
 
 export default function ImageSlider({ slides = [], forceUpdate }) {
   const [index, setIndex] = useState(0);
+  const navigate = useNavigate();
   const { user, cart, setCart } = useAuth();
-  const { setMessage, setStatus, loading, setLoading } = useNotification();
+  const { setMessage, setStatus, loading, setLoading, setModal } = useNotification();
 
   useHead(slides[index].name);
 
@@ -42,6 +44,11 @@ export default function ImageSlider({ slides = [], forceUpdate }) {
     setLoading(false);
   };
 
+  const buyHandler = () => {
+    setCart([slides[index]]);
+    navigate("/cart");
+  };
+
   const deleteItemHandler = async () => {
     setLoading(true);
     const deletedItem = slides[index];
@@ -59,6 +66,10 @@ export default function ImageSlider({ slides = [], forceUpdate }) {
     setLoading(false);
   };
 
+  const showPictureHandler = () => {
+    setModal(<img className="img" src={slides[index].imageURL} alt="Painting" />);
+  };
+
   return (
     <article>
       <figure className={classes.figure}>
@@ -69,7 +80,12 @@ export default function ImageSlider({ slides = [], forceUpdate }) {
             onClick={nextHandler}
           />
           <div className={classes.container}>
-            <img className={classes.image} src={slides[index].imageURL} alt="Trulli" />
+            <img
+              className={classes.image}
+              src={slides[index].imageURL}
+              alt="Painting"
+              onClick={showPictureHandler}
+            />
           </div>
           <BiCaretRight
             className={classes.arrow}
@@ -92,7 +108,7 @@ export default function ImageSlider({ slides = [], forceUpdate }) {
           </>
         ) : (
           <>
-            <button className="btn border" disabled={loading}>
+            <button className="btn border" disabled={loading} onClick={buyHandler}>
               Buy
             </button>
             <button className="btn border" disabled={loading} onClick={addToCartHandler}>
