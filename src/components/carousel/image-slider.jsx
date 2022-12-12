@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { BiCaretLeft, BiCaretRight } from "react-icons/bi";
 import Buttons from "../ui/button-group";
 import PopUp from "../ui/pop-up";
+import Message from "../ui/message";
 
 export default function ImageSlider({ slides = [], forceUpdate }) {
   const [index, setIndex] = useState(0);
@@ -107,6 +108,7 @@ export default function ImageSlider({ slides = [], forceUpdate }) {
           />
         </section>
         <h3 className={classes.name}>{slides[index].name}</h3>
+        <Message>Price: ${slides[index].price} </Message>
         <figcaption>{slides[index].description}</figcaption>
       </figure>
       <Buttons>
