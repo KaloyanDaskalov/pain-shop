@@ -14,10 +14,7 @@ function Notification({ message = "", status }) {
   const cssClasses = `${classes.notification} ${statusClasses}`;
 
   return (
-    <div
-      className={cssClasses}
-      style={{ transform: `translateY(${message ? 0 : "-100%"})` }}
-    >
+    <div className={cssClasses} style={{ transform: `translateY(${message ? 0 : "-100%"})` }}>
       <span>{message}</span>
     </div>
   );

@@ -1,19 +1,19 @@
 .wrapper {
-	width: min(90%, 1200px);
-	margin: 0 auto;
+  width: min(90%, 1200px);
+  margin: 0 auto;
 }
 
 .flex {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .height {
-	min-height: 100vh;
+  min-height: 100vh;
 }
 
 .card {
-	text-align: center;
-	padding: 1rem;
+  text-align: center;
+  padding: 1rem;
 }

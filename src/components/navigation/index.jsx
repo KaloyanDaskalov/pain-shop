@@ -15,26 +15,29 @@ export default function Navigation() {
   return (
     <header className={classes.header}>
       <Wrapper addClass="flex">
-        <Link to="/">
+        <Link to="/" aria-label="Home">
           <img src={Logo} alt="logo" className={classes.logo} />
         </Link>
         <nav className={classes.nav}>
           <ul className={classes.navbar}>
             {user?.email === "kala_ds@yahoo.com" && (
               <li>
-                <Link to="/create" className={classes.link}>
+                <Link to="/create" aria-label="Create item" className={classes.link}>
                   <BiAddToQueue />
                 </Link>
               </li>
             )}
             <li>
-              <Link to={user ? "/profile" : "/auth"} className={classes.link}>
+              <Link
+                to={user ? "/profile" : "/auth"}
+                aria-label="User authentication or profile"
+                className={classes.link}>
                 {user ? <BiUserCheck /> : <BiUser />}
               </Link>
             </li>
             {user?.email !== "kala_ds@yahoo.com" && (
               <li style={{ position: "relative" }}>
-                <Link to="/cart" className={classes.link}>
+                <Link to="/cart" aria-label="Cart" className={classes.link}>
                   <BiCart />
                   {!!cart.length && <Badge value={cart.length} top={7} right={-3} />}
                 </Link>
@@ -42,7 +45,7 @@ export default function Navigation() {
             )}
             {user && (
               <li>
-                <BiLogOut className={classes.link} onClick={logout} />
+                <BiLogOut aria-label="Logout" className={classes.link} onClick={logout} />
               </li>
             )}
           </ul>

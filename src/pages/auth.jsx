@@ -36,10 +36,7 @@ export default function Auth() {
       emailRef.current.classList.remove("error");
     }
 
-    if (
-      (form === "Register" || form === "Login") &&
-      !lengthCheck(password, 6, 50, "\\S")
-    ) {
+    if ((form === "Register" || form === "Login") && !lengthCheck(password, 6, 50, "\\S")) {
       passwordRef.current.focus();
       passwordRef.current.classList.add("error");
       return;
@@ -117,9 +114,7 @@ export default function Auth() {
               id="confirm"
               ref={confirmRef}
             />
-            <Message addClass="tl mb">
-              * Password must be at least 6 characters long
-            </Message>
+            <Message addClass="tl mb">* Password must be at least 6 characters long</Message>
           </>
         )}
         <button type="submit" className="btn" disabled={loading}>
@@ -135,11 +130,7 @@ export default function Auth() {
       {form === "Register" && (
         <Message>
           Already a member?
-          <TextButton
-            type="button"
-            className="form-button-navigator"
-            click={changeFormHandler}
-          >
+          <TextButton type="button" className="form-button-navigator" click={changeFormHandler}>
             Login
           </TextButton>
         </Message>
@@ -147,11 +138,7 @@ export default function Auth() {
       {form !== "Reset Password" && (
         <Message>
           Don't remember your password?
-          <TextButton
-            type="button"
-            className="form-button-navigator"
-            click={changeFormHandler}
-          >
+          <TextButton type="button" className="form-button-navigator" click={changeFormHandler}>
             Reset Password
           </TextButton>
         </Message>
@@ -159,11 +146,7 @@ export default function Auth() {
       {form === "Reset Password" && (
         <Message>
           Back to
-          <TextButton
-            type="button"
-            className="form-button-navigator"
-            click={changeFormHandler}
-          >
+          <TextButton type="button" className="form-button-navigator" click={changeFormHandler}>
             Login
           </TextButton>
         </Message>

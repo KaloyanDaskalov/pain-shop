@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <Frame addClass="wide">
       <Title addClass="mb">Page Not Found</Title>
-      <Link to="/" className="btn">
+      <Link to="/" aria-label="Back to Home" className="btn">
         Back to Home
       </Link>
     </Frame>

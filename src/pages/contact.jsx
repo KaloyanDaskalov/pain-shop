@@ -47,8 +47,8 @@ export default function Contact() {
         method: "POST",
         body: data,
         headers: {
-          Accept: "application/json",
-        },
+          Accept: "application/json"
+        }
       });
 
       setMessage("Your message has been sent");
@@ -104,12 +104,8 @@ export default function Contact() {
           id="message"
           ref={messageRef}
         />
-        <Message addClass="tl mb">
-          * Name must be at least 2 characters long
-        </Message>
-        <Message addClass="tl mb">
-          * Message must be at least 10 characters long
-        </Message>
+        <Message addClass="tl mb">* Name must be at least 2 characters long</Message>
+        <Message addClass="tl mb">* Message must be at least 10 characters long</Message>
         <button type="submit" className="btn" disabled={loading}>
           Send Message
         </button>

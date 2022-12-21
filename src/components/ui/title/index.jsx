@@ -1,16 +1,11 @@
-import classes from './title.module.css';
+import classes from "./title.module.css";
 
 export default function Title({ children, addClass }) {
+  const classList = [classes.title];
 
-	const classList = [classes.title];
+  if (addClass) {
+    addClass.split(" ").forEach((c) => classList.push(classes[c]));
+  }
 
-	if (addClass) {
-		addClass.split(' ').forEach(c => classList.push(classes[c]));
-	}
-
-	return (
-		<h1 className={classList.join(' ')}>
-			{children}
-		</h1>
-	);
+  return <h1 className={classList.join(" ")}>{children}</h1>;
 }

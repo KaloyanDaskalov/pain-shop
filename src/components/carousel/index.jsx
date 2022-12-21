@@ -108,8 +108,7 @@ function Carousel(props) {
   const touchMoveHandler = (e) => {
     setTouchEndPosition(e.targetTouches[0].clientX);
     const frameWidth = document.getElementById("DisplayFrame").offsetWidth;
-    const translateDist =
-      ((touchEndPosition - touchStartPosition) / frameWidth) * 100;
+    const translateDist = ((touchEndPosition - touchStartPosition) / frameWidth) * 100;
     translatePartialSlides(translateDist);
     if (touched === true) {
       setSwiped(true);
@@ -144,8 +143,7 @@ function Carousel(props) {
     var frameWidth = document.getElementById("DisplayFrame").offsetWidth;
     if (mouseClicked === true) {
       setMouseEndPosition(e.clientX);
-      let translateDist =
-        ((mouseEndPosition - mouseStartPosition) / frameWidth) * 100;
+      let translateDist = ((mouseEndPosition - mouseStartPosition) / frameWidth) * 100;
       translatePartialSlides(translateDist);
       setMouseSwiped(true);
     }
@@ -200,8 +198,7 @@ function Carousel(props) {
           ? classes.PositionIndicator.concat(" " + classes.CurrentPosition)
           : classes.PositionIndicator
       }
-      onClick={() => jumpToSlideHandler(index)}
-    ></div>
+      onClick={() => jumpToSlideHandler(index)}></div>
   ));
 
   useEffect(() => {
@@ -227,8 +224,7 @@ function Carousel(props) {
           onMouseMove={(e) => mouseMoveHandler(e)}
           onMouseUp={(e) => mouseEndHandler(e)}
           onMouseLeave={(e) => mouseEndHandler(e)}
-          onWheel={() => wheelHandler()}
-        >
+          onWheel={() => wheelHandler()}>
           {displayItems}
         </div>
         <div className={classes.RightArrow} onClick={nextClickHandler}>
