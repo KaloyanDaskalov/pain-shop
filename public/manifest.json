@@ -1,11 +1,13 @@
 {
-  "name": "Paint Shop",
+  "name": "Online shop for handmade paintings",
   "short_name": "Paint Shop",
   "theme_color": "#000000",
   "background_color": "#ffffff",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
+  "lang": "en-US",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "maskable.png",
