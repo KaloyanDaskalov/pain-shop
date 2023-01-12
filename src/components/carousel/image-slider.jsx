@@ -9,6 +9,7 @@ import { useNotification } from "../../state/notifications";
 import classes from "./image-slider.module.css";
 import { firebaseError } from "../../utils/firebase-error";
 import { Link } from "react-router-dom";
+import placeholderImage from "../../assets/images/placeholder.jpg";
 import { BiCaretLeft, BiCaretRight } from "react-icons/bi";
 import Buttons from "../ui/button-group";
 import PopUp from "../ui/pop-up";
@@ -16,6 +17,7 @@ import Message from "../ui/message";
 
 export default function ImageSlider({ slides = [], forceUpdate }) {
   const [index, setIndex] = useState(0);
+  const [isLoadingImage, setIsLoadingImage] = useState(true);
   const navigate = useNavigate();
   const { user, cart, setCart } = useAuth();
   const { setMessage, setStatus, loading, setLoading, setModal } = useNotification();
@@ -96,9 +98,13 @@ export default function ImageSlider({ slides = [], forceUpdate }) {
           <div className={classes.container}>
             <img
               className={classes.image}
-              src={slides[index].imageURL}
+              src={isLoadingImage ? placeholderImage : slides[index].imageURL}
               alt="Painting"
               onClick={showPictureHandler}
+              onLoad={() => setIsLoadingImage(false)}
+              onError={(e) => {
+                e.target.src = placeholderImage;
+              }}
             />
           </div>
           <BiCaretRight
