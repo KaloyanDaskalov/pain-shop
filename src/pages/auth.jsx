@@ -24,9 +24,9 @@ export default function Auth() {
     e.preventDefault();
 
     let formType = resetPassword;
-    const email = emailRef.current?.value;
-    const password = passwordRef.current?.value;
-    const confirm = confirmRef.current?.value;
+    const email = emailRef.current?.value.trim();
+    const password = passwordRef.current?.value.trim();
+    const confirm = confirmRef.current?.value.trim();
 
     if (!emailValidation(email)) {
       emailRef.current.focus();

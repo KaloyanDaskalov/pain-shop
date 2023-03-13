@@ -35,7 +35,7 @@ export default function Footer() {
       <Link to="/contact" aria-label="Contact">
         <FaEnvelope className={classes.icon} />
       </Link>
-      <p className={classes.footerText}>Copyright &copy; {date} Paint shop. All rights reserved</p>
+      <p className={classes.footerText}>Copyright &copy; {date} Master's degree project</p>
     </footer>
   );
 }

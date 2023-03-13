@@ -66,15 +66,15 @@ export default function Contact() {
       <Title>Contact Us</Title>
       <Message addClass="tl mb">
         <BiMap className="icon" />
-        Sofia, Tsar Samuil 20
+        Country, street ...
       </Message>
       <Message addClass="tl mb">
         <BiEnvelope className="icon" />
-        paint-shop@gmail.com
+        example@gmail.com
       </Message>
       <Message addClass="tl mb">
         <BiPhone className="icon" />
-        +359888222111
+        +359000000
       </Message>
       <form className="form" onSubmit={formHandler}>
         <input
